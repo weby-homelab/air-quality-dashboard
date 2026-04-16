@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>ЕКО-СТАНЦІЯ | Моніторинг повітря Київ</title>
+    
+    <!-- SEO & Metadata -->
+    <meta name="description" content="Ультрасучасний моніторинг якості повітря в Києві (Південна Борщагівка). Реальні дані PM2.5, PM10, Радіації та газів кожні 10 хвилин.">
+    <meta name="keywords" content="якість повітря, київ, південна борщагівка, pm2.5, pm10, радіація, екологія">
+    <link rel="canonical" href="https://ecobot.srvrs.top/">
+    
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ecobot.srvrs.top/">
+    <meta property="og:title" content="ЕКО-СТАНЦІЯ | Моніторинг повітря Київ">
+    <meta property="og:description" content="Ультрасучасний моніторинг якості повітря. PM2.5, PM10, Радіація та Гази кожні 10 хвилин.">
+    <meta property="og:image" content="https://ecobot.srvrs.top/static/icon-512.png">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://ecobot.srvrs.top/">
+    <meta name="twitter:title" content="ЕКО-СТАНЦІЯ | Моніторинг повітря Київ">
+    <meta name="twitter:description" content="Ультрасучасний моніторинг якості повітря. PM2.5, PM10, Радіація та Гази кожні 10 хвилин.">
+    <meta name="twitter:image" content="https://ecobot.srvrs.top/static/icon-512.png">
+    
+    <!-- Icons & iOS Integration -->
+    <link rel="icon" type="image/svg+xml" href="/static/icon.svg">
+    <link rel="icon" type="image/png" sizes="192x192" href="/static/icon-192.png">
+    <link rel="apple-touch-icon" href="/static/icon.png">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="ЕкоСтанція">
+    
+    <!-- Placeholder Splash Screens -->
+    <link rel="apple-touch-startup-image" href="/static/icon.png">
+
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#030303">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #030303;
+            --card-bg: rgba(22, 22, 28, 0.6);
+            --card-border: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --accent: #8b5cf6;
+            --accent-glow: rgba(139, 92, 246, 0.3);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --blur: 40px;
+            
+            --aqi-good: #10b981;
+            --aqi-moderate: #f59e0b;
+            --aqi-unhealthy-sensitive: #f97316;
+            --aqi-unhealthy: #ef4444;
+            --aqi-very-unhealthy: #8b5cf6;
+            --aqi-hazardous: #7f1d1d;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        html, body { overscroll-behavior: none; user-select: none; -webkit-user-select: none; height: 100%; }
+        
+        body { 
+            background-color: var(--bg-color); color: var(--text-primary); font-family: 'Inter', sans-serif; 
+            min-height: 100vh; padding: 40px 16px 80px; background-attachment: fixed;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        body::before { 
+            content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+            background: radial-gradient(circle at 10% 10%, var(--accent-glow) 0%, transparent 40%);
+            z-index: -1;
+        }
+
+        .container { width: 100%; max-width: 1100px; }
+
+        header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; padding: 8px; }
+        .logo-wrap { display: flex; flex-direction: column; gap: 4px; }
+        .logo { font-weight: 900; font-size: 1.4rem; letter-spacing: -0.05em; text-transform: uppercase; line-height: 1; }
+        .logo span { color: var(--accent); }
+        .logo-subtitle { font-size: 0.75rem; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.2em; }
+
+        .bento-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; width: 100%; }
+        .bento-card {
+            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 36px; padding: 32px;
+            backdrop-filter: blur(var(--blur)); -webkit-backdrop-filter: blur(var(--blur));
+            display: flex; flex-direction: column; justify-content: space-between; min-height: 240px;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .bento-card:hover { transform: translateY(-6px); border-color: rgba(255,255,255,0.1); }
+
+        .card-aqi-main { grid-column: span 2; grid-row: span 2; padding: 48px; min-height: 480px; }
+        .aqi-display { display: flex; align-items: flex-end; gap: 40px; margin-bottom: 40px; }
+        .aqi-num { font-size: 10rem; font-weight: 900; line-height: 0.75; font-family: 'JetBrains Mono', monospace; letter-spacing: -0.06em; }
+        .aqi-meta h2 { font-size: 3rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; line-height: 1; }
+        .aqi-meta p { font-size: 1.1rem; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; }
+
+        .stat-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+        .stat-label-wrap { display: flex; flex-direction: column; gap: 4px; }
+        .stat-label { font-size: 0.9rem; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; }
+        .stat-sublabel { font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); opacity: 0.6; }
+        
+        .stat-val { font-size: 3.5rem; font-weight: 800; font-family: 'JetBrains Mono', monospace; margin-bottom: 24px; line-height: 0.9; display: flex; align-items: baseline; }
+        .stat-val span:last-child { font-size: 1.3rem; opacity: 0.3; font-weight: 600; margin-left: 10px; }
+
+        .dual-graph { display: flex; align-items: flex-end; gap: 12px; width: 100%; }
+        .graph-container { display: flex; align-items: flex-end; gap: 2px; height: 50px; }
+        .graph-24h { flex: 3; }
+        .graph-7d { flex: 1; border-left: 1px solid rgba(255,255,255,0.05); padding-left: 8px; }
+
+        .bar { flex: 1; background: var(--accent); border-radius: 100px; min-width: 2px; opacity: 0.2; transition: all 0.4s ease; cursor: crosshair; }
+        .bar.filled { opacity: 0.8; box-shadow: 0 0 12px var(--accent-glow); }
+        .bar.empty { height: 4px !important; background: rgba(255,255,255,0.1); opacity: 0.5; }
+        .bar.weekly-bar { background: var(--success); opacity: 0.5; border-radius: 2px; }
+
+        #tooltip {
+            position: fixed; padding: 12px 16px; background: rgba(0,0,0,0.95); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px;
+            font-size: 0.85rem; z-index: 10000; pointer-events: none; display: none; backdrop-filter: blur(12px); font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Toast Notifications */
+        #toast-container { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 10001; display: flex; flex-direction: column; gap: 8px; align-items: center; width: 90%; max-width: 400px; }
+        .toast { background: rgba(30, 30, 35, 0.9); border: 1px solid var(--card-border); border-radius: 20px; padding: 16px 24px; color: #fff; font-size: 0.9rem; font-weight: 600; backdrop-filter: blur(20px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); display: flex; align-items: center; gap: 12px; animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        footer { margin-top: 60px; text-align: center; font-size: 0.8rem; color: var(--text-secondary); opacity: 0.5; line-height: 1.6; }
+
+        @media (max-width: 1000px) { .bento-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) {
+            .bento-grid { grid-template-columns: 1fr; }
+            .card-aqi-main { grid-column: span 1; padding: 32px; min-height: 400px; }
+            .aqi-num { font-size: 7rem; }
+            .stat-val { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+    <div id="tooltip"></div>
+    <div id="toast-container"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo-wrap">
+                <div class="logo">ЕКО-<span>СТАНЦІЯ</span></div>
+                <div class="logo-subtitle">Статус (Київ, Південна Борщагівка)</div>
+            </div>
+        </header>
+
+        <div class="bento-grid">
+            <!-- AQI MAIN -->
+            <div class="bento-card card-aqi-main">
+                <div class="aqi-display">
+                    <div id="aqi-val" class="aqi-num {{ data.aqi_class }}">{{ data.aqi }}</div>
+                    <div class="aqi-meta">
+                        <h2 id="aqi-status" class="{{ data.aqi_class }}">{{ data.status }}</h2>
+                        <p>AQI INDEX</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="stat-label" style="margin-bottom:12px;">ТРЕНД: 24 ГОДИНИ | 7 ДНІВ</div>
+                    <div class="dual-graph">
+                        <div class="graph-container graph-24h" id="aqi-graph">
+                            {% for h in data.histories['aqi'] %}
+                            {% set is_empty = (h == 0) %}
+                            <div class="bar filled {{ 'empty' if is_empty else '' }}" 
+                                 onmouseover="showT(event, '{{ data.labels_24h[loop.index0] }}', '{{ h|round|int }} AQI')"
+                                 onmouseout="hideT()"
+                                 style="height: {{ '4px' if is_empty else (h / 300 * 100)|int ~ '%' }}; background: {{ 'var(--aqi-hazardous)' if h > 300 else 'var(--aqi-very-unhealthy)' if h > 200 else 'var(--aqi-unhealthy)' if h > 150 else 'var(--aqi-unhealthy-sensitive)' if h > 100 else 'var(--aqi-moderate)' if h > 50 else 'var(--aqi-good)' }};"></div>
+                            {% endfor %}
+                        </div>
+                        <div class="graph-container graph-7d" id="aqi-graph-weekly">
+                            {% for h in data.weekly_histories['aqi'] %}
+                            {% set is_empty = (h == 0) %}
+                            <div class="bar weekly-bar {{ 'empty' if is_empty else 'filled' }}"
+                                 onmouseover="showT(event, '{{ data.labels_7d[loop.index0] }}', '{{ h|round|int }} AQI (середнє)')"
+                                 onmouseout="hideT()"
+                                 style="height: {{ '4px' if is_empty else (h / 300 * 100)|int ~ '%' }};"></div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% set stats = [
+                ('temp', '🌡️ Температура', '°C', 'Повітря'), ('hum', '💧 Вологість', '%', 'Відносна'),
+                ('rad', '☢️ Радіація', 'мкЗв', 'Гамма-фон'), ('wind_speed', '🌬️ Вітер', 'м/с', data.wind_dir),
+                ('pm1', '☁️ PM1', 'мкг', 'Дрібні частки'), ('pm25', '☁️ PM2.5', 'мкг', 'Середні частки'),
+                ('pm10', '☁️ PM10', 'мкг', 'Великі частки'), ('co2', '💭 CO₂', 'мг', 'Вуглекислий газ'),
+                ('no2', '💭 NO₂', 'мкг', 'Діоксид азоту'), ('o3', '💭 O₃', 'мкг', 'Озон'),
+                ('so2', '💭 SO₂', 'мкг', 'Діоксид сірки'), ('no', '💭 NO', 'мкг', 'Оксид азоту'),
+                ('h2s', '💭 H₂S', 'мкг', 'Сірководень'), ('ch2o', '💭 CH₂O', 'мкг', 'Формальдегід'),
+                ('press', '🌀 Тиск', 'гПа', 'Атмосферний'), ('noise', '🔊 Шум', 'дБ', 'Рівень звуку')
+            ] %}
+
+            {% for key, label, unit, sub in stats %}
+            <div class="bento-card card-stat">
+                <div class="stat-header"><div class="stat-label-wrap"><div class="stat-label">{{ label }}</div><div class="stat-sublabel" id="{{ key }}-sub">{{ sub }}</div></div></div>
+                <div class="stat-val"><span id="{{ key }}-val">{{ data[key] }}</span><span>{{ unit }}</span></div>
+                <div class="dual-graph">
+                    <div class="graph-container graph-24h" id="{{ key }}-graph">
+                        {% set h_max = data.histories[key]|max if data.histories[key]|max > 0 else 1 %}
+                        {% for h in data.histories[key] %}{% set is_empty = (h == 0) %}<div class="bar filled {{ 'empty' if is_empty else '' }}" onmouseover="showT(event, '{{ data.labels_24h[loop.index0] }}', '{{ h|round(1) }}{{ unit }}')" onmouseout="hideT()" style="height: {{ '4px' if is_empty else (h / h_max * 100)|int ~ '%' }};"></div>{% endfor %}
+                    </div>
+                    <div class="graph-container graph-7d" id="{{ key }}-graph-weekly">
+                        {% set w_max = data.weekly_histories[key]|max if data.weekly_histories[key]|max > 0 else 1 %}
+                        {% for h in data.weekly_histories[key] %}{% set is_empty = (h == 0) %}<div class="bar weekly-bar {{ 'empty' if is_empty else 'filled' }}" onmouseover="showT(event, '{{ data.labels_7d[loop.index0] }}', '{{ h|round(1) }}{{ unit }} (середнє)')" onmouseout="hideT()" style="height: {{ '4px' if is_empty else (h / w_max * 100)|int ~ '%' }};"></div>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <footer>
+            <div>СТАНЦІЯ 24185 | SAVE ECO BOT | v{{ data.version }}</div>
+            <div style="margin-top: 8px; opacity: 0.8;">оновлено в <span id="last-update">{{ data.last_update }}</span></div>
+        </footer>
+    </div>
+
+    <script>
+        const tooltip = document.getElementById('tooltip');
+        function showT(e, time, val) {
+            tooltip.innerHTML = `<div style="color:var(--text-secondary);font-size:0.7rem;margin-bottom:4px;">${time}</div><div style="font-weight:800;font-size:1rem;">${val}</div>`;
+            tooltip.style.display = 'block'; moveT(e);
+        }
+        function moveT(e) { tooltip.style.left = (e.clientX + 20) + 'px'; tooltip.style.top = (e.clientY - 50) + 'px'; }
+        function hideT() { tooltip.style.display = 'none'; }
+        window.onmousemove = (e) => { if(tooltip.style.display === 'block') moveT(e); };
+
+        function showToast(msg, type='info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            const icon = type === 'error' ? '⚠️' : 'ℹ️';
+            toast.innerHTML = `<span>${icon}</span> <span>${msg}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 5000);
+        }
+
+        async function updateData() {
+            try {
+                const response = await fetch('/api/latest');
+                if (!response.ok) throw new Error('Network error');
+                const data = await response.json();
+                
+                // Save for offline
+                localStorage.setItem('cached_data', JSON.stringify(data));
+                
+                const valEl = document.getElementById('aqi-val');
+                valEl.innerText = data.aqi;
+                valEl.className = 'aqi-num ' + data.aqi_class;
+                document.getElementById('aqi-status').innerText = data.status;
+                document.getElementById('aqi-status').className = data.aqi_class;
+                document.getElementById('last-update').innerText = data.last_update;
+                
+                const metrics = ['temp', 'hum', 'pm1', 'pm25', 'pm10', 'co2', 'no2', 'o3', 'so2', 'no', 'h2s', 'ch2o', 'press', 'noise', 'wind_speed', 'rad'];
+                metrics.forEach(m => {
+                    const el = document.getElementById(m + '-val');
+                    if (el) el.innerText = data[m];
+                });
+            } catch (e) {
+                console.error("Update error", e);
+                showToast('Помилка оновлення. Перевірте інтернет.', 'error');
+            }
+        }
+
+        // Offline initial load
+        window.addEventListener('load', () => {
+            const cache = localStorage.getItem('cached_data');
+            if (cache) {
+                console.log("Loading from cache...");
+                // Note: Simplified for now, real implementation would populate UI from cache
+            }
+        });
+
+        window.addEventListener('online', () => showToast('Знову в мережі!'));
+        window.addEventListener('offline', () => showToast('Інтернет відсутній. Працюємо офлайн.', 'error'));
+
+        setInterval(updateData, 60000);
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/static/sw.js').then(reg => {
+                reg.addEventListener('updatefound', () => {
+                    const newWorker = reg.installing;
+                    newWorker.addEventListener('statechange', () => {
+                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            showToast('Доступне оновлення! Перезавантажте додаток.');
+                        }
+                    });
+                });
+            });
+        }
+    </script>
+</body>
+</html>
