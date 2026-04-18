@@ -1,5 +1,18 @@
 # 🌬️ ECO-STATION: Air Quality Monitoring (Kyiv)
 
+<p align="center">
+  <a href="README_ENG.md">
+    <img src="https://img.shields.io/badge/🇬🇧_English-00D4FF?style=for-the-badge&logo=readme&logoColor=white" alt="English README">
+  </a>
+  <a href="README.md">
+    <img src="https://img.shields.io/badge/🇺🇦_Українська-FF4D00?style=for-the-badge&logo=readme&logoColor=white" alt="Українська версія">
+  </a>
+</p>
+
+<br>
+
+![Dashboard Screenshot](ECO-BOT_dashboard.png)
+
 A modern, lightweight, and informative dashboard for real-time air quality tracking. Designed for residents of Kyiv (Southern Borshchahivka) using cutting-edge web technologies.
 
 [![Python Version](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)

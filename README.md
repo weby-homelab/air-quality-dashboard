@@ -1,5 +1,18 @@
 # 🌬️ ЕКО-СТАНЦІЯ: Моніторинг повітря (Київ)
 
+<p align="center">
+  <a href="README_ENG.md">
+    <img src="https://img.shields.io/badge/🇬🇧_English-00D4FF?style=for-the-badge&logo=readme&logoColor=white" alt="English README">
+  </a>
+  <a href="README.md">
+    <img src="https://img.shields.io/badge/🇺🇦_Українська-FF4D00?style=for-the-badge&logo=readme&logoColor=white" alt="Українська версія">
+  </a>
+</p>
+
+<br>
+
+![Dashboard Screenshot](ECO-BOT_dashboard.png)
+
 Сучасний, легкий та інформативний дашборд для відстеження якості повітря в режимі реального часу. Створено для мешканців Києва (Південна Борщагівка) з використанням передових веб-технологій.
 
 [![Python Version](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
