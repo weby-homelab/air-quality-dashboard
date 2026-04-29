@@ -97,3 +97,11 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ---
 *Developed with care for the environment and clean air. 🌍*
+
+---
+
+<br>
+<p align="center">
+  Built in Ukraine under air raid sirens &amp; blackouts ⚡<br>
+  &copy; 2026 Weby Homelab
+</p>
