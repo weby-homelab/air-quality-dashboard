@@ -61,7 +61,9 @@ air-quality-dashboard/
 
 ---
 
-## 📦 Встановлення та запуск
+## 📦 Встановлення та запуск (Docker)
+
+Найпростіший спосіб запустити дашборд — використовувати Docker та Docker Compose.
 
 ### 1. Клонування репозиторію
 ```bash
@@ -69,18 +71,26 @@ git clone https://github.com/weby-homelab/air-quality-dashboard.git
 cd air-quality-dashboard
 ```
 
-### 2. Налаштування оточення
+### 2. Створення файлу історії
+Щоб Docker не створив директорію замість файлу при монтуванні тому, створіть пустий файл `history.json`:
 ```bash
-python -m venv venv
-source venv/bin/activate  # Для Windows: venv\Scripts\activate
-pip install -r requirements.txt
+echo '{}' > history.json
 ```
 
-### 3. Запуск сервера
+### 3. Запуск через Docker Compose
+Запустіть контейнер у фоновому режимі:
 ```bash
-python -m app.main
+docker compose up -d
 ```
-Після цього дашборд буде доступний за адресою: `http://localhost:8000`
+Дашборд буде доступний за адресою: `http://localhost:8000`
+
+### ⚙️ Налаштування
+Ви можете змінити станцію SaveEcoBot, встановивши змінну середовища `STATION_ID` у `docker-compose.yml`:
+```yaml
+environment:
+  - STATION_ID=13992  # Вкажіть ID вашої станції
+  - TZ=Europe/Kyiv
+```
 
 ---
 

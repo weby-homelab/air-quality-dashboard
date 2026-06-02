@@ -61,7 +61,9 @@ air-quality-dashboard/
 
 ---
 
-## 📦 Installation & Setup
+## 📦 Installation & Setup (Docker)
+
+The easiest way to run the dashboard is using Docker and Docker Compose.
 
 ### 1. Clone the repository
 ```bash
@@ -69,18 +71,26 @@ git clone https://github.com/weby-homelab/air-quality-dashboard.git
 cd air-quality-dashboard
 ```
 
-### 2. Environment Setup
+### 2. Create History File
+To prevent Docker from creating a directory instead of a file during volume mounting, create an empty `history.json` file:
 ```bash
-python -m venv venv
-source venv/bin/activate  # For Windows: venv\Scripts\activate
-pip install -r requirements.txt
+echo '{}' > history.json
 ```
 
-### 3. Run the Server
+### 3. Run via Docker Compose
+Start the container in detached mode:
 ```bash
-python -m app.main
+docker compose up -d
 ```
 The dashboard will be available at: `http://localhost:8000`
+
+### ⚙️ Configuration
+You can change the SaveEcoBot station ID by setting the `STATION_ID` environment variable in `docker-compose.yml`:
+```yaml
+environment:
+  - STATION_ID=13992  # Specify your station ID here
+  - TZ=Europe/Kyiv
+```
 
 ---
 
