@@ -148,7 +148,7 @@
         <header>
             <div class="logo-wrap">
                 <div class="logo">ЕКО-<span>СТАНЦІЯ</span></div>
-                <div class="logo-subtitle">Статус (Київ, Південна Борщагівка)</div>
+                <div class="logo-subtitle" id="station-name">{{ data.station_name }}</div>
             </div>
         </header>
 
@@ -217,7 +217,7 @@
         </div>
 
         <footer>
-            <div>СТАНЦІЯ 24185 | SAVE ECO BOT | v{{ data.version }}</div>
+            <div>СТАНЦІЯ <span id="station-id">{{ data.station_id }}</span> | SAVE ECO BOT | v{{ data.version }}</div>
             <div style="margin-top: 8px; opacity: 0.8;">оновлено в <span id="last-update">{{ data.last_update }}</span></div>
         </footer>
     </div>
@@ -257,6 +257,8 @@
                 document.getElementById('aqi-status').innerText = data.status;
                 document.getElementById('aqi-status').className = data.aqi_class;
                 document.getElementById('last-update').innerText = data.last_update;
+                document.getElementById('station-name').innerText = data.station_name;
+                document.getElementById('station-id').innerText = data.station_id;
                 
                 const metrics = ['temp', 'hum', 'pm1', 'pm25', 'pm10', 'co2', 'no2', 'o3', 'so2', 'no', 'h2s', 'ch2o', 'press', 'noise', 'wind_speed', 'rad'];
                 metrics.forEach(m => {

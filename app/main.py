@@ -19,9 +19,12 @@ app = FastAPI(title="Air Quality Dashboard")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-HISTORY_FILE = "history.json"
+HISTORY_FILE = os.getenv("HISTORY_FILE", "history.json")
 METRICS = ['aqi', 'pm1', 'pm25', 'pm10', 'no', 'no2', 'co2', 'o3', 'h2s', 'so2', 'ch2o', 'temp', 'hum', 'press', 'noise', 'wind_speed', 'rad']
-VERSION = "0.1"
+VERSION = "0.2"
+
+STATION_ID = os.getenv("STATION_ID", "24185")
+STATION_URL = f"https://www.saveecobot.com/station/{STATION_ID}.json"
 
 # Global state
 latest_data: Dict[str, Any] = {m: "--" for m in METRICS}
@@ -34,12 +37,10 @@ latest_data.update({
     "histories": {m: [0.0] * 24 for m in METRICS},
     "weekly_histories": {m: [0.0] * 7 for m in METRICS},
     "labels_24h": ["" for _ in range(24)],
-    "labels_7d": ["" for _ in range(7)]
+    "labels_7d": ["" for _ in range(7)],
+    "station_id": STATION_ID,
+    "station_name": "Завантаження..."
 })
-
-STATION_URL = "https://www.saveecobot.com/station/24185.json"
-LAT, LON = "50.411", "30.410"
-WEATHER_URL = f"https://api.open-meteo.com/v1/forecast?latitude={LAT}&longitude={LON}&current=wind_speed_10m,wind_direction_10m"
 
 def get_wind_label(deg):
     if deg is None: return "--"
@@ -71,12 +72,19 @@ async def fetch_air_quality():
         try:
             resp = await client.get(STATION_URL, timeout=10.0)
             data = resp.json()
-            w_resp = await client.get(WEATHER_URL, timeout=10.0)
+            
+            lat = data.get("latitude") or "50.411"
+            lon = data.get("longitude") or "30.410"
+            weather_url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current=wind_speed_10m,wind_direction_10m"
+            
+            w_resp = await client.get(weather_url, timeout=10.0)
             w_data = w_resp.json().get("current", {})
             
             now = datetime.now()
             latest_data["aqi"] = int(float(data.get("aqi", 0)))
             latest_data["last_update"] = now.strftime("%H:%M")
+            latest_data["station_id"] = str(data.get("id", STATION_ID))
+            latest_data["station_name"] = data.get("sensor_name") or f"Станція {STATION_ID}"
             
             aqi = latest_data["aqi"]
             if aqi <= 50: latest_data.update({"status": "Добре", "aqi_class": "aqi-good"})
