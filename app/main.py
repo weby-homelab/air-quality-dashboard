@@ -25,6 +25,7 @@ VERSION = "0.2"
 
 STATION_ID = os.getenv("STATION_ID", "24185")
 STATION_URL = f"https://www.saveecobot.com/station/{STATION_ID}.json"
+DOMAIN = os.getenv("DOMAIN", "ecobot-2.srvrs.top")
 
 # Global state
 latest_data: Dict[str, Any] = {m: "--" for m in METRICS}
@@ -39,7 +40,8 @@ latest_data.update({
     "labels_24h": ["" for _ in range(24)],
     "labels_7d": ["" for _ in range(7)],
     "station_id": STATION_ID,
-    "station_name": "Завантаження..."
+    "station_name": "Завантаження...",
+    "domain": DOMAIN
 })
 
 def get_wind_label(deg):
@@ -180,13 +182,13 @@ async def get_manifest():
 
 @app.get("/robots.txt")
 async def robots():
-    return Response(content="User-agent: *\nAllow: /\nSitemap: https://ecobot.srvrs.top/sitemap.xml", media_type="text/plain")
+    return Response(content=f"User-agent: *\nAllow: /\nSitemap: https://{DOMAIN}/sitemap.xml", media_type="text/plain")
 
 @app.get("/sitemap.xml")
 async def sitemap():
     content = f"""<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-        <url><loc>https://ecobot.srvrs.top/</loc><lastmod>{date.today()}</lastmod><changefreq>always</changefreq><priority>1.0</priority></url>
+        <url><loc>https://{DOMAIN}/</loc><lastmod>{date.today()}</lastmod><changefreq>always</changefreq><priority>1.0</priority></url>
     </urlset>"""
     return Response(content=content, media_type="application/xml")
 
