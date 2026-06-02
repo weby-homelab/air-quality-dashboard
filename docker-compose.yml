@@ -10,6 +10,7 @@ services:
       - "8000:8000"
     environment:
       - TZ=Europe/Kyiv
-      - STATION_ID=13992
+      - STATION_ID=24185
+      - DOMAIN=ecobot-2.srvrs.top
     volumes:
       - ./history.json:/app/history.json
