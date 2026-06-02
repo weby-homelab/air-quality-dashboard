@@ -58,8 +58,19 @@ def load_history():
         try:
             with open(HISTORY_FILE, 'r', encoding='utf-8') as f:
                 data = json.load(f)
+                if not isinstance(data, dict):
+                    raise ValueError("History data is not a dictionary")
+                for key in ["histories", "weekly_histories", "last_rollover", "last_hour"]:
+                    if key not in data:
+                        data[key] = default_structure[key]
+                for m in METRICS:
+                    if m not in data["histories"] or not isinstance(data["histories"][m], list):
+                        data["histories"][m] = [0.0] * 24
+                    if m not in data["weekly_histories"] or not isinstance(data["weekly_histories"][m], list):
+                        data["weekly_histories"][m] = [0.0] * 7
                 return data
-        except: pass
+        except Exception as e:
+            logger.warning(f"Error loading history file: {e}")
     return default_structure
 
 def save_history(h_data):
