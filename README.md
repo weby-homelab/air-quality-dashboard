@@ -1,4 +1,4 @@
-# 🌬️ ЕКО-СТАНЦІЯ: Моніторинг повітря (Київ)
+# 🌬️ ЕКО-СТАНЦІЯ: Моніторинг повітря
 
 <p align="center">
   <a href="README_ENG.md">
@@ -13,31 +13,34 @@
 
 ![Dashboard Screenshot](ECO-BOT_dashboard.png)
 
-Сучасний, легкий та інформативний дашборд для відстеження якості повітря в режимі реального часу. Створено для мешканців Києва (Південна Борщагівка) з використанням передових веб-технологій.
+Сучасний, легкий та інформативний дашборд для відстеження якості повітря та погоди в режимі реального часу. Система автоматично адаптується під вибрану екологічну станцію моніторингу.
 
 [![Python Version](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-v0.100+-009688.svg)](https://fastapi.tiangolo.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Docker Image](https://img.shields.io/badge/Docker_Hub-webyhomelab/air--quality--dashboard-0db7ed.svg?logo=docker&logoColor=white)](https://hub.docker.com/r/webyhomelab/air-quality-dashboard)
 
 ---
 
 ## 🚀 Основні можливості
 
-- **📊 Реальний час:** Дані оновлюються кожні 10 хвилин зі станції **24185 (SaveEcoBot)**.
-- **📈 Тренди та історія:** Візуалізація погодинних змін за останні 24 години та середньодобових за 7 днів.
+- **📊 Реальний час:** Автоматичне оновлення даних кожні 10 хвилин з API **SaveEcoBot** для будь-якої вказаної станції.
+- **🗺️ Автоматична геолокація:** Координати (широта/довгота) автоматично зчитуються з обраної еко-станції, на їх основі будується прогноз погоди та вітру.
+- **📈 Тренди та історія:** Збереження та візуалізація погодинних змін за останні 24 години та середньодобових за 7 днів.
 - **🧪 Повний спектр показників:** AQI, PM2.5, PM10, PM1, Радіація (гамма-фон), CO2, NO2, O3, SO2, Температура, Вологість, Тиск та Шум.
-- **☁️ Погода:** Інтеграція з Open-Meteo для отримання даних про швидкість та напрямок вітру.
-- **📱 PWA (Progressive Web App):** Можливість встановлення на смартфон або десктоп. Працює офлайн (кешування останніх даних).
-- **🎨 Bento-дизайн:** Ультрасучасний інтерфейс у стилі Glassmorphism з адаптивною сіткою.
+- **☁️ Погода:** Інтеграція з Open-Meteo API для отримання даних про швидкість та напрямок вітру на основі гео-координат станції.
+- **📱 PWA (Progressive Web App):** Встановлюється на смартфони або десктопи. Працює в офлайн-режимі (кешування останніх даних).
+- **🎨 Bento-дизайн:** Сучасний Glassmorphism UI з адаптивною сіткою та автоматичною контрастністю.
+- **🔍 Повне динамічне SEO:** Автоматична генерація `sitemap.xml`, `robots.txt`, канонічних посилань, метатегів та карт Open Graph / Twitter на основі домену та назви станції.
 
 ---
 
 ## 🛠️ Технологічний стек
 
-- **Backend:** [FastAPI](https://fastapi.tiangolo.com/) (Python) — швидкий та асинхронний фреймворк.
+- **Backend:** [FastAPI](https://fastapi.tiangolo.com/) (Python 3.12).
 - **Frontend:** [Jinja2](https://palletsprojects.com/p/jinja/) Templates + Vanilla CSS/JS.
-- **Scheduler:** [APScheduler](https://apscheduler.readthedocs.io/) для фонового оновлення даних.
-- **Data Fetching:** [HTTPX](https://www.python-httpx.org/) для асинхронних запитів до API.
+- **Scheduler:** [APScheduler](https://apscheduler.readthedocs.io/) для фонового збору даних.
+- **Data Fetching:** [HTTPX](https://www.python-httpx.org/) для асинхронних запитів.
 - **PWA:** Service Workers + Manifest для мобільної інтеграції.
 
 ---
@@ -47,23 +50,24 @@
 ```text
 air-quality-dashboard/
 ├── app/
-│   └── main.py          # Основна логіка сервера та парсингу
+│   └── main.py          # Логіка FastAPI, фоновий воркер та парсинг API
 ├── static/
-│   ├── manifest.json    # Конфігурація PWA
-│   ├── sw.js           # Service Worker для офлайн-режиму
-│   └── icon.png        # Графічні активи
+│   ├── manifest.json    # Налаштування PWA (іконки, кольори)
+│   ├── sw.js           # Service Worker для офлайн-кешування
+│   └── icon.svg/png     # Графічні ресурси та логотипи
 ├── templates/
-│   └── index.html       # Головна сторінка (Bento UI)
-├── history.json         # Локальне сховище історії (автоматично)
-├── requirements.txt     # Залежності
-└── dashboard.log        # Логи роботи
+│   └── index.html       # Головна Bento-сторінка дашборду
+├── history.json         # Локальне сховище історії (монтується як Docker volume)
+├── requirements.txt     # Залежності Python
+├── Dockerfile           # Інструкція збірки контейнера (Debian slim, tzdata)
+└── docker-compose.yml   # Маніфест запуску
 ```
 
 ---
 
 ## 📦 Встановлення та запуск (Docker)
 
-Найпростіший спосіб запустити дашборд — використовувати Docker та Docker Compose.
+Проект повністю переведено на Docker-архітектуру. Запуск здійснюється за допомогою однієї команди.
 
 ### 1. Клонування репозиторію
 ```bash
@@ -71,33 +75,43 @@ git clone https://github.com/weby-homelab/air-quality-dashboard.git
 cd air-quality-dashboard
 ```
 
-### 2. Створення файлу історії
-Щоб Docker не створив директорію замість файлу при монтуванні тому, створіть пустий файл `history.json`:
+### 2. Ініціалізація файлу історії
+Перед запуском контейнера створіть пустий файл `history.json` на хості, щоб Docker примонтував його як файл, а не створив однойменну папку:
 ```bash
 echo '{}' > history.json
 ```
 
-### 3. Запуск через Docker Compose
-Запустіть контейнер у фоновому режимі:
+### 3. Запуск сервісу
+Запустіть Docker-контейнер у фоновому режимі:
 ```bash
 docker compose up -d
 ```
 Дашборд буде доступний за адресою: `http://localhost:8000`
 
-### ⚙️ Налаштування
-Ви можете змінити станцію SaveEcoBot, встановивши змінну середовища `STATION_ID` у `docker-compose.yml`:
-```yaml
-environment:
-  - STATION_ID=13992  # Вкажіть ID вашої станції
-  - TZ=Europe/Kyiv
-```
+---
+
+## ⚙️ Конфігурація та змінні середовища
+
+Ви можете налаштувати дашборд під свою станцію та домен, відредагувавши змінні середовища в `docker-compose.yml`:
+
+| Змінна | Значення за замовчуванням | Опис |
+| :--- | :--- | :--- |
+| `STATION_ID` | `24185` | ID станції моніторингу SaveEcoBot. |
+| `DOMAIN` | `ecobot-2.srvrs.top` | Ваш публічний домен (використовується для SEO-метатегів та sitemap). |
+| `TZ` | `Europe/Kyiv` | Системна часова зона для правильної побудови графіків. |
+
+### 🔍 Як знайти свій `STATION_ID`?
+1. Перейдіть на карту [SaveEcoBot](https://www.saveecobot.com/maps).
+2. Знайдіть та виберіть потрібну екологічну станцію.
+3. В адресному рядку браузера ви побачите посилання типу: `https://www.saveecobot.com/station/XXXXX`.
+4. Число `XXXXX` в кінці посилання і є вашим `STATION_ID`. Вкажіть його у файлі `docker-compose.yml` та перезапустіть контейнер.
 
 ---
 
 ## 🗺️ Джерела даних
 
-1. **Якість повітря:** [SaveEcoBot API](https://www.saveecobot.com/) (Станція №24185).
-2. **Погода:** [Open-Meteo API](https://open-meteo.com/) (Координати Києва).
+1. **Якість повітря:** [SaveEcoBot API](https://www.saveecobot.com/) (дані станції оновлюються динамічно на основі вашого `STATION_ID`).
+2. **Погода:** [Open-Meteo API](https://open-meteo.com/) (координати запитуються автоматично за метаданими обраної станції).
 
 ---
 
@@ -106,11 +120,6 @@ environment:
 Цей проект поширюється під ліцензією MIT. Детальніше див. у файлі [LICENSE](LICENSE).
 
 ---
-*Розроблено з турботою про екологію та чисте повітря. 🌍*
-
----
-
-<br>
 <p align="center">
   Built in Ukraine under air raid sirens &amp; blackouts ⚡<br>
   &copy; 2026 Weby Homelab
