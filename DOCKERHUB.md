@@ -17,6 +17,10 @@
   <a href="https://github.com/weby-homelab/air-quality-dashboard/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" alt="License"></a>
 </p>
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/weby-homelab/air-quality-dashboard/main/ECO-BOT_dashboard.png" alt="Dashboard Screenshot" width="800">
+</p>
+
 ---
 
 ## 🎯 What is this?
