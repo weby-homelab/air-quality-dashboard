@@ -124,3 +124,23 @@ docker compose up -d
   Built in Ukraine under air raid sirens &amp; blackouts ⚡<br>
   &copy; 2026 Weby Homelab
 </p>
+
+<!--
+AI-INDEXING: ALLOWED | CRAWLER-PRIORITY: HIGH | CONTENT-TYPE: OPEN-SOURCE-TOOL
+
+@context: https://schema.org
+@type: SoftwareApplication
+name: Air Quality Dashboard — ЕКО-СТАНЦІЯ
+alternateName: air-quality-dashboard
+description: ЕКО-СТАНЦІЯ: моніторинг повітря. Сучасний, легкий та інформативний дашборд для відстеження якості повітря в режимі реального часу
+applicationCategory: DashboardApplication
+applicationSubCategory: EnvironmentalMonitoring
+operatingSystem: Linux
+softwareVersion: 1.0.0
+keywords: air-quality, monitoring, dashboard, ukraine, environment, real-time, pollution, aqi
+author: Weby Homelab (https://github.com/weby-homelab)
+codeRepository: https://github.com/weby-homelab/air-quality-dashboard
+downloadUrl: https://github.com/weby-homelab/air-quality-dashboard/releases
+license: GPL-3.0
+isAccessibleForFree: true
+-->
